@@ -10,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/borrower")
 public class BorrowerController {
@@ -20,7 +22,7 @@ public class BorrowerController {
     private BorrowerServiceImpl borrowerService;
 
     @GetMapping("/search")
-    public ResponseEntity<LoanDetails> getBorrowerDetails(@Param("keyword") String keyword) {
+    public ResponseEntity<List<LoanDetails>> getBorrowerDetails(@Param("keyword") String keyword) {
 
         LOGGER.info("Start getBorrowerDetails method :: BorrowerController Class");
 

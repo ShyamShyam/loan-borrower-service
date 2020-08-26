@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BorrowerServiceImpl implements BorrowerService{
@@ -22,16 +21,16 @@ public class BorrowerServiceImpl implements BorrowerService{
     private BorrowerRepository borrowerRepository;
 
     @Override
-    public LoanDetails fetchBorrowerDetails(String keyword) {
+    public List<LoanDetails> fetchBorrowerDetails(String keyword) {
 
         LOGGER.info("Enter fetchBorrowerDetails method :: BorrowerServiceImpl Class");
 
-        Optional<LoanDetails> loanDetails = borrowerRepository.fetchAll(keyword);
+        List<LoanDetails> loanDetails = borrowerRepository.fetchAll(keyword);
 
-        if(!loanDetails.isPresent())
+        if(loanDetails == null)
             throw new CustomException("No record found", "Please try with different keyword", new Date());
 
-        return loanDetails.get();
+        return loanDetails;
     }
 
     @Override

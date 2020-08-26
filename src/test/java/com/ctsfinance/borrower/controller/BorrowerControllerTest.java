@@ -1,7 +1,6 @@
 package com.ctsfinance.borrower.controller;
 
 import com.ctsfinance.borrower.mock.MockData;
-import com.ctsfinance.borrower.model.LoanDetails;
 import com.ctsfinance.borrower.repository.BorrowerRepository;
 import com.ctsfinance.borrower.service.BorrowerService;
 import org.junit.Test;
@@ -9,14 +8,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -26,7 +21,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -63,8 +57,6 @@ public class BorrowerControllerTest {
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
-        System.out.println("====================" + result.getResponse().getContentAsString());
-
         JSONAssert.assertEquals(jsonString, result.getResponse().getContentAsString(), false);
 
     }
@@ -72,7 +64,7 @@ public class BorrowerControllerTest {
     @Test()
     public void testSaveBorrowerDetails() throws Exception{
 
-        Mockito.when(borrowerService.saveBorrowerDetails(mockData.getLoanDetails())).thenReturn(mockData.getLoanDetails());
+        Mockito.when(borrowerService.saveBorrowerDetails(mockData.getLoanDetail())).thenReturn(mockData.getLoanDetail());
 
         // Send course as body to /students/Student1/courses
         RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -88,18 +80,14 @@ public class BorrowerControllerTest {
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
 
-        //System.out.println("====================" + result.getResponse().getContentAsString());
-
-        assertEquals("http://localhost:8002/borrower/save", response.getHeader(HttpHeaders.LOCATION));
-
     }
 
     @Test()
     public void testUpdateBorrowerDetails() throws Exception{
 
-        mockData.getLoanDetails().setLoanId(1l);
+        mockData.getLoanDetail().setLoanId(1l);
 
-        Mockito.when(borrowerService.modifyBorrowerDetails(mockData.getLoanDetails(), mockData.getLoanDetails().getLoanId())).thenReturn(mockData.getLoanDetails());
+        Mockito.when(borrowerService.modifyBorrowerDetails(mockData.getLoanDetail(), mockData.getLoanDetail().getLoanId())).thenReturn(mockData.getLoanDetail());
 
         // Send course as body to /students/Student1/courses
         RequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -114,10 +102,6 @@ public class BorrowerControllerTest {
         MockHttpServletResponse response = result.getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-
-        //System.out.println("====================" + result.getResponse().getContentAsString());
-
-        assertEquals("http://localhost:8002/borrower/update/1", response.getHeader(HttpHeaders.LOCATION));
 
     }
 }
